@@ -1,3 +1,17 @@
+<script lang="ts">
+  import { page } from '$app/stores';
+  import { trpc } from '$lib/trpc/client';
+
+  let greeting = 'press the button to load data';
+  let loading = false;
+
+  const loadData = async () => {
+    loading = true;
+    greeting = await trpc($page).greeting.query();
+    loading = false;
+  };
+</script>
+
 <h1>Sign Up</h1>
 
 <form method="POST">
@@ -12,6 +26,18 @@
 
   <button>Sign Up</button>
 </form>
+
+<a
+  href="#load"
+  role="button"
+  class="secondary"
+  aria-busy={loading}
+  on:click|preventDefault={loadData}
+>
+  Load
+</a>
+
+<p>{greeting}</p>
 
 <style>
   form {
