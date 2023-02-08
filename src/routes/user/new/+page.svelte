@@ -1,43 +1,37 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { trpc } from '$lib/trpc/client';
+  import type { NewUserRequest } from '$lib/trpc/router';
 
-  let greeting = 'press the button to load data';
-  let loading = false;
-
-  const loadData = async () => {
-    loading = true;
-    greeting = await trpc($page).greeting.query();
-    loading = false;
+  let newUserRequest: NewUserRequest = {
+    username: '',
+    email: '',
+    password: ''
   };
+
+  const onSubmit = async () => {
+    console.log(newUserRequest);
+
+    const result = await trpc($page).newUser.query(newUserRequest);
+
+    alert("result: " + result);
+  }
 </script>
 
 <h1>Sign Up</h1>
 
-<form method="POST">
+<form method="POST" on:submit|preventDefault={onSubmit} autocomplete="off">
   <label for="username">Username:</label>
-  <input id="username" name="username" type="text" />
+  <input id="username" type="text" bind:value={newUserRequest.username} />
 
   <label for="email">Email:</label>
-  <input id="email" name="email" type="email" />
+  <input id="email" type="email" bind:value={newUserRequest.email} />
 
   <label for="password">Password:</label>
-  <input id="password" name="password" type="password" />
+  <input id="password" type="password" bind:value={newUserRequest.password} />
 
   <button>Sign Up</button>
 </form>
-
-<a
-  href="#load"
-  role="button"
-  class="secondary"
-  aria-busy={loading}
-  on:click|preventDefault={loadData}
->
-  Load
-</a>
-
-<p>{greeting}</p>
 
 <style>
   form {
