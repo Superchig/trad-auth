@@ -35,6 +35,7 @@
 	"dependencies": {
 		"@trpc/client": "^10.10.0",
 		"@trpc/server": "^10.10.0",
+		"argon2": "^0.30.3",
 		"slonik": "^33.0.6",
 		"trpc-sveltekit": "^3.2.9",
 		"zod": "^3.20.2"
