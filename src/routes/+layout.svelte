@@ -1,4 +1,4 @@
-<script lang="typescript">
+<script lang="ts">
   import { lastError } from '$lib/stores';
   import JSONTree from 'svelte-json-tree';
 </script>
