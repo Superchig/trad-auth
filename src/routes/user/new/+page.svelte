@@ -12,9 +12,12 @@
   };
 
   let elemForm: HTMLFormElement;
+  let elemSubmitButton: HTMLButtonElement;
 
   const onSubmit = async () => {
     try {
+      elemSubmitButton.disabled = true;
+
       const sessionId = await trpc($page).newUser.query(newUserRequest);
 
       setCookieSafe('sessionId', sessionId);
@@ -22,6 +25,8 @@
       elemForm.reset();
     } catch (err: any) {
       lastError.set(err);
+    } finally {
+      elemSubmitButton.disabled = false;
     }
   };
 </script>
@@ -38,7 +43,7 @@
   <label for="password">Password:</label>
   <input id="password" type="password" bind:value={newUserRequest.password} />
 
-  <button>Sign Up</button>
+  <button bind:this={elemSubmitButton}>Sign Up</button>
 </form>
 
 <style>
