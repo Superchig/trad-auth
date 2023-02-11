@@ -47,5 +47,5 @@ You can preview the production build with `npm run preview`.
   - Argon2 - password salting and hashing
 - [x] Slonik connection
   - Slonik
-- [ ] JSON Error Display
+- [x] JSON Error Display
   - svelte-json-tree
