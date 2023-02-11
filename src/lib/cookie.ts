@@ -1,8 +1,3 @@
-// NOTE(Chris): Modified from getCookieValue at
-// https://stackoverflow.com/questions/5639346/what-is-the-shortest-function-for-reading-a-cookie-by-name-in-javascript?rq=1
-export const getCookieUnsafe = (name: string): string =>
-  document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || '';
-
 type CookieOptions = {
   sameSite?: 'Lax' | 'Strict' | 'None';
 };
@@ -10,6 +5,11 @@ type CookieOptions = {
 const defaultCookieOptions: CookieOptions = {
   sameSite: 'Strict'
 };
+
+// NOTE(Chris): Modified from getCookieValue at
+// https://stackoverflow.com/questions/5639346/what-is-the-shortest-function-for-reading-a-cookie-by-name-in-javascript?rq=1
+export const getCookieUnsafe = (name: string): string =>
+  document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || '';
 
 export const setCookieUnsafe = (name: string, value: string, options: CookieOptions = {}): void => {
   let cookieOptions = {
