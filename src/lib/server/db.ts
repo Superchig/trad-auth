@@ -7,20 +7,14 @@ export function get_query(): number {
   return 5;
 }
 
-process.on('exit', async (code) => {
+process.on('exit', async () => {
   await closeDB();
 });
 
-process.on('SIGINT', () => {
-  process.exit();
-});
-
 async function closeDB() {
-  if (pool == null) {
-    return;
-  }
+  console.log('Ending pool...');
 
   await pool.end();
 
-  console.log('Database closed.');
+  console.log('Pool ending confirmed.');
 }

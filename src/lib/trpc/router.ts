@@ -7,6 +7,10 @@ import argon2 from 'argon2';
 
 export const t = initTRPC.context<Context>().create();
 
+const schemaId = z.object({
+  id: z.number()
+});
+
 export const router = t.router({
   newUser: t.procedure
     .input((val: unknown) => {
@@ -28,13 +32,17 @@ export const router = t.router({
         console.log('In transaction: beginning');
         const result = await connection.query(
           sql.type(
-            z.number()
+            schemaId
           )`INSERT INTO user_account (username, email, password) VALUES (${input.username}, ${input.email}, ${saltedHashedPass}) RETURNING id;`
         );
 
         console.log('In transaction: middle');
 
-        const newUserId = result.rows[0];
+        console.log(result);
+
+        const newUserId = result.rows[0].id;
+
+        console.log(newUserId);
 
         const sessionId = await connection.query(
           sql.type(
