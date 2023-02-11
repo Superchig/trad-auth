@@ -1,10 +1,10 @@
 -- migrate:up
-CREATE TABLE users (
-  id SERIAL,
+CREATE TABLE user_account (
+  id SERIAL PRIMARY KEY,
   username varchar(255),
   email varchar(255) NOT NULL,
   password varchar(255)
 );
 
 -- migrate:down
-DROP TABLE users;
+DROP TABLE user_account;
