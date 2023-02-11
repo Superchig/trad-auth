@@ -6,6 +6,8 @@ import {
   type QueryResultRow
 } from 'slonik';
 
+import { DATABASE_URL } from '$env/static/private';
+
 // NOTE(Chris): This is modified slightly to get it to type-check
 // https://github.com/gajus/slonik/tree/v33.0.7#result-parser-interceptor
 const createResultParserInterceptor = (): Interceptor => {
@@ -30,8 +32,7 @@ const createResultParserInterceptor = (): Interceptor => {
 
 const makePool = async (): Promise<DatabasePool> => {
   try {
-    // FIXME(Chris): Make the postgres URL configurable
-    return await createPool('postgres://postgres:password@localhost:5432/trad-auth', {
+    return await createPool(DATABASE_URL, {
       interceptors: [createResultParserInterceptor()]
     });
   } catch (err) {
