@@ -20,7 +20,7 @@ export const setCookieUnsafe = (name: string, value: string, options: CookieOpti
   let cookieString = `${name}=${value}`;
 
   if (cookieOptions.sameSite) {
-    cookieString += `;  SameSite=${cookieOptions.sameSite}`;
+    cookieString += `; SameSite=${cookieOptions.sameSite}`;
   }
 
   document.cookie = cookieString;
