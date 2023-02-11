@@ -9,6 +9,20 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: trigger_set_timestamp(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.trigger_set_timestamp() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$;
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -30,7 +44,9 @@ CREATE TABLE public.user_account (
     id integer NOT NULL,
     username character varying(255),
     email character varying(255) NOT NULL,
-    password character varying(255)
+    password character varying(255),
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
 );
 
 
@@ -59,8 +75,10 @@ ALTER SEQUENCE public.user_account_id_seq OWNED BY public.user_account.id;
 --
 
 CREATE TABLE public.user_session (
-    id uuid,
-    user_account_id integer
+    id uuid NOT NULL,
+    user_account_id integer,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
 );
 
 
@@ -85,6 +103,28 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.user_account
     ADD CONSTRAINT user_account_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_session user_session_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_session
+    ADD CONSTRAINT user_session_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_account set_timestamp_user_account; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER set_timestamp_user_account BEFORE UPDATE ON public.user_account FOR EACH ROW EXECUTE FUNCTION public.trigger_set_timestamp();
+
+
+--
+-- Name: user_session set_timestamp_user_session; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER set_timestamp_user_session BEFORE UPDATE ON public.user_session FOR EACH ROW EXECUTE FUNCTION public.trigger_set_timestamp();
 
 
 --
