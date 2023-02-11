@@ -1,4 +1,10 @@
-import { createPool, SchemaValidationError, type Interceptor, type QueryResultRow } from 'slonik';
+import {
+  createPool,
+  SchemaValidationError,
+  type DatabasePool,
+  type Interceptor,
+  type QueryResultRow
+} from 'slonik';
 
 // NOTE(Chris): This is modified slightly to get it to type-check
 // https://github.com/gajus/slonik/tree/v33.0.7#result-parser-interceptor
@@ -22,10 +28,22 @@ const createResultParserInterceptor = (): Interceptor => {
   };
 };
 
-// FIXME(Chris): Make the postgres URL configurable
-export const pool = await createPool('postgres://postgres:password@localhost:5432/trad-auth', {
-  interceptors: [createResultParserInterceptor()]
-});
+const makePool = async (): Promise<DatabasePool> => {
+  try {
+    // FIXME(Chris): Make the postgres URL configurable
+    return await createPool('postgres://postgres:password@localhost:5432/trad-auth', {
+      interceptors: [createResultParserInterceptor()]
+    });
+  } catch (err) {
+    process.stdout.write('Database pool creation error: ');
+    console.log(err);
+    throw new Error(
+      'An error occurred while creating the database pool. Check (console) logs for more detail.'
+    );
+  }
+};
+
+export const pool = await makePool();
 
 process.on('exit', async () => {
   await closeDB();
