@@ -41,6 +41,12 @@ You can preview the production build with `npm run preview`.
 - Docker
 - DBMate - Migrations
 
+To set up DBMate properly, create an `.env` file with these contents:
+
+```conf
+DATABASE_URL=postgres://postgres:password@localhost:5432/trad-auth?sslmode=disable
+```
+
 ## Fundamental Features
 
 - [ ] "Traditional" Authentication
