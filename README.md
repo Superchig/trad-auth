@@ -35,8 +35,17 @@ npm run build
 
 You can preview the production build with `npm run preview`.
 
+## Database
+
+- Postgres - DBMS
+- Docker
+- DBMate - Migrations
+
 ## Fundamental Features
 
 - [ ] "Traditional" Authentication
+  - Argon2 - password salting and hashing
 - [x] Slonik connection
+  - Slonik
 - [ ] JSON Error Display
+  - svelte-json-tree
