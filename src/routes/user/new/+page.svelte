@@ -11,13 +11,15 @@
     password: ''
   };
 
+  let elemForm: HTMLFormElement;
+
   const onSubmit = async () => {
     try {
-      console.log(newUserRequest);
-
       const sessionId = await trpc($page).newUser.query(newUserRequest);
 
       setCookieSafe('sessionId', sessionId);
+
+      elemForm.reset();
     } catch (err: any) {
       lastError.set(err);
     }
@@ -26,7 +28,7 @@
 
 <h1>Sign Up</h1>
 
-<form method="POST" on:submit|preventDefault={onSubmit} autocomplete="off">
+<form method="POST" on:submit|preventDefault={onSubmit} autocomplete="off" bind:this={elemForm}>
   <label for="username">Username:</label>
   <input id="username" type="text" bind:value={newUserRequest.username} />
 
