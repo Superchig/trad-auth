@@ -1,8 +1,7 @@
 import type { PageServerLoad } from "./$types";
 
-export const load: PageServerLoad = () => {
+export const load: PageServerLoad = ({ cookies }) => {
   return {
-    // FIXME(Chris): Remove this
-    count: 5,
+    sessionId: cookies.get('sessionId'),
   }
 }
