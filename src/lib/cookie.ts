@@ -1,5 +1,6 @@
 type CookieOptions = {
   sameSite?: 'Lax' | 'Strict' | 'None';
+  expires?: Date;
 };
 
 const defaultCookieOptions: CookieOptions = {
@@ -21,6 +22,9 @@ export const setCookieUnsafe = (name: string, value: string, options: CookieOpti
 
   if (cookieOptions.sameSite) {
     cookieString += `; SameSite=${cookieOptions.sameSite}`;
+  }
+  if (cookieOptions.expires) {
+    cookieString += `; Expires=${cookieOptions.expires}`;
   }
 
   document.cookie = cookieString;
