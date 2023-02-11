@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
+  import { setCookieSafe } from '$lib/cookie';
   import { lastError } from '$lib/stores';
   import { trpc } from '$lib/trpc/client';
   import type { NewUserRequest } from '$lib/trpc/router';
@@ -14,9 +15,9 @@
     try {
       console.log(newUserRequest);
 
-      const result = await trpc($page).newUser.query(newUserRequest);
+      const sessionId = await trpc($page).newUser.query(newUserRequest);
 
-      alert('result: ' + result);
+      setCookieSafe('sessionId', sessionId);
     } catch (err: any) {
       lastError.set(err);
     }

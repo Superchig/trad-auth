@@ -25,7 +25,7 @@ export const router = t.router({
     .input((val: unknown) => {
       return NewUserRequest.parse(val);
     })
-    .query(async (req): Promise<string | null> => {
+    .query(async (req): Promise<string> => {
       // FIXME(Chris): See if you can wrap this whole TRPC router in some kind
       // of middleware that can catch Slonik errors
       // https://github.com/gajus/slonik#error-handling
