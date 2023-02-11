@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
+  import { lastError } from '$lib/stores';
   import { trpc } from '$lib/trpc/client';
   import type { NewUserRequest } from '$lib/trpc/router';
 
@@ -10,12 +11,16 @@
   };
 
   const onSubmit = async () => {
-    console.log(newUserRequest);
+    try {
+      console.log(newUserRequest);
 
-    const result = await trpc($page).newUser.query(newUserRequest);
+      const result = await trpc($page).newUser.query(newUserRequest);
 
-    alert("result: " + result);
-  }
+      alert('result: ' + result);
+    } catch (err: any) {
+      lastError.set(err);
+    }
+  };
 </script>
 
 <h1>Sign Up</h1>

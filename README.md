@@ -34,3 +34,9 @@ npm run build
 ```
 
 You can preview the production build with `npm run preview`.
+
+## Fundamental Features
+
+- [ ] "Traditional" Authentication
+- [x] Slonik connection
+- [ ] JSON Error Display

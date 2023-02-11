@@ -37,6 +37,7 @@
 		"@trpc/server": "^10.10.0",
 		"argon2": "^0.30.3",
 		"slonik": "^33.0.7",
+		"svelte-json-tree": "^1.0.0",
 		"trpc-sveltekit": "^3.2.9",
 		"zod": "^3.20.2"
 	}
