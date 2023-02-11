@@ -12,6 +12,6 @@ FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
 -- migrate:down
-DROP TABLE user_session;
+DROP TRIGGER set_timestamp_user_session ON user_session;
 
-DROP TRIGGER set_timestamp_user_session;
+DROP TABLE user_session;
