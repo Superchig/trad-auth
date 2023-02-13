@@ -10,13 +10,7 @@
     console.log('Signing out...');
 
     // TODO(Chris): Refactor this into a cookie deletion method
-    Cookies.remove('sessionId', {
-      path: '/',
-      sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production',
-      // Set cookie to expire after a month
-      days: 30
-    });
+    Cookies.remove('sessionId');
 
     location.reload();
   };

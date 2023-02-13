@@ -26,7 +26,7 @@
         sameSite: 'strict',
         secure: process.env.NODE_ENV === 'production',
         // Set cookie to expire after a month
-        days: 30
+        expires: 30
       });
 
       elemForm.reset();
