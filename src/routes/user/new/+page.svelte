@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { setCookieSafe } from '$lib/cookie';
+  import Cookies from 'js-cookie';
   import { lastError } from '$lib/stores';
   import { trpc } from '$lib/trpc/client';
   import type { NewUserRequest } from '$lib/trpc/router';
@@ -20,15 +21,21 @@
 
       const sessionId = await trpc($page).newUser.query(newUserRequest);
 
-      setCookieSafe('sessionId', sessionId);
+      Cookies.set('sessionId', sessionId, {
+        path: '/',
+        sameSite: 'strict',
+        secure: process.env.NODE_ENV === 'production',
+        // Set cookie to expire after a month
+        days: 30
+      });
 
       elemForm.reset();
+
+      location.href = '/';
     } catch (err: any) {
       lastError.set(err);
     } finally {
       elemSubmitButton.disabled = false;
-
-      location.href = '/';
     }
   };
 </script>

@@ -1,33 +1,34 @@
 <script lang="ts">
   import { setCookieSafe } from '$lib/cookie';
   import { validRoute } from '$lib/routes';
+  import Cookies from 'js-cookie';
   import type { PageData } from './$types';
 
   export let data: PageData;
 
-  const isSignedIn = data.sessionId !== undefined;
-
   const signOut = () => {
+    console.log('Signing out...');
+
     // TODO(Chris): Refactor this into a cookie deletion method
-    setCookieSafe('sessionId', '', {
-      expires: new Date()
+    Cookies.remove('sessionId', {
+      path: '/',
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
+      // Set cookie to expire after a month
+      days: 30
     });
 
     location.reload();
   };
 </script>
 
-<h1>Are you signed in?</h1>
+<h1>Traditional Auth</h1>
 
-{#if isSignedIn}
-  <p>Yes.</p>
+{#if data.isSignedIn}
+  <button on:click={signOut}>Log Out</button>
 {:else}
-  <p>No.</p>
+  <a href={validRoute('/user/new')}>Sign Up</a>
 {/if}
-
-<a href={validRoute('/user/new')}>Sign Up</a>
-
-<button on:click={signOut}>Log Out</button>
 
 <style>
 </style>
