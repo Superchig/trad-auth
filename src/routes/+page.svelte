@@ -13,8 +13,6 @@
       expires: new Date()
     });
 
-    // FIXME(Chris): Find a way to avoid this reload / do the whole thing in a
-    // round-trip
     location.reload();
   };
 </script>

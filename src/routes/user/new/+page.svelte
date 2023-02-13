@@ -28,8 +28,6 @@
     } finally {
       elemSubmitButton.disabled = false;
 
-      // FIXME(Chris): See if we can avoid hitting the server a second time with
-      // this redirect
       location.href = '/';
     }
   };
