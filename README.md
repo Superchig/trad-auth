@@ -47,6 +47,12 @@ To set up DBMate properly, create an `.env` file with these contents:
 DATABASE_URL=postgres://postgres:password@localhost:5432/trad-auth?sslmode=disable
 ```
 
+Rather than using the typical `dbmate` command, use:
+
+```
+scripts/dbmate
+```
+
 ## Environmental Variables
 
 We may need to install dotenv and invoke it before running the built app in
