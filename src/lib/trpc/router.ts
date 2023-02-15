@@ -1,7 +1,7 @@
 import type { Context } from '$lib/trpc/context';
 import { initTRPC } from '@trpc/server';
 import { z } from 'zod';
-import { sql } from 'slonik';
+import { ConnectionError, sql } from 'slonik';
 import { pool } from '$lib/server/db';
 import argon2 from 'argon2';
 
@@ -52,6 +52,38 @@ export const router = t.router({
       });
 
       return sessionId;
+    }),
+  logIn: t.procedure
+    .input((val: unknown) => {
+      return LogInRequest.parse(val);
+    })
+    .query(async ({ input }) => {
+      return await pool.transaction(async (connection) => {
+        const result = (
+          await connection.query(sql.type(
+            z.object({
+              id: z.string().uuid(),
+              password: z.string()
+            })
+          )`SELECT user_session.id, ua.password
+            FROM user_session
+                     INNER JOIN user_account ua on user_session.user_account_id = ua.id
+            WHERE ua.email = ${input.email};`)
+        ).rows[0];
+
+        try {
+          if (await argon2.verify(result.password, input.password)) {
+            return result.id; // Session ID
+          } else {
+            // FIXME(Chris): Figure out way to return invalid password error
+            return null;
+          }
+        } catch (err) {
+          process.stdout.write('Error trying to verify password: ');
+          console.log(err);
+          return null;
+        }
+      });
     })
 });
 
@@ -60,7 +92,14 @@ export type Router = typeof router;
 const NewUserRequest = z.object({
   username: z.string(),
   email: z.string(),
-  password: z.string()
+  password: z.string().min(6)
 });
 
 export type NewUserRequest = z.infer<typeof NewUserRequest>;
+
+const LogInRequest = z.object({
+  email: z.string(),
+  password: z.string().min(6)
+});
+
+export type LogInRequest = z.infer<typeof LogInRequest>;

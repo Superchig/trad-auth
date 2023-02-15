@@ -1,6 +1,7 @@
 <script lang="ts">
   import { setCookieSafe } from '$lib/cookie';
   import { validRoute } from '$lib/routes';
+  import { TRPC_ERROR_CODES_BY_KEY } from '@trpc/server/rpc';
   import Cookies from 'js-cookie';
   import type { PageData } from './$types';
 
@@ -22,6 +23,11 @@
   <button on:click={signOut}>Log Out</button>
 {:else}
   <a href={validRoute('/user/new')}>Sign Up</a>
+
+  <!-- TODO(Chris): Remove this line break -->
+  <br />
+
+  <a href={validRoute('/user/login')}>Sign In</a>
 {/if}
 
 <style>
