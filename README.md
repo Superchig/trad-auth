@@ -68,3 +68,5 @@ See https://kit.svelte.dev/docs/adapter-node#environment-variables.
   - Slonik
 - [x] JSON Error Display
   - svelte-json-tree
+- [x] Logging
+  - Using HTTP logger handle taken from Reddit

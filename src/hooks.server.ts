@@ -6,6 +6,7 @@ import { createTRPCHandle } from 'trpc-sveltekit';
 
 const tRPCHandle = createTRPCHandle({ router, createContext });
 
+// NOTE(Chris): From https://old.reddit.com/r/sveltejs/comments/xtbkpb/how_are_you_logging_http_requests_in_sveltekit/
 const httpLoggerHandle: Handle = async ({ event, resolve }) => {
   const requestStartTime = Date.now();
   const response = await resolve(event);
