@@ -75,7 +75,6 @@ export const router = t.router({
           if (await argon2.verify(result.password, input.password)) {
             return result.id; // Session ID
           } else {
-            // FIXME(Chris): Figure out way to return invalid password error
             return null;
           }
         } catch (err) {
