@@ -26,10 +26,9 @@ const httpLoggerHandle: Handle = async ({ event, resolve }) => {
 
 const authenticationHandle: Handle = async ({ event, resolve }) => {
   const sessionId = event.cookies.get('sessionId');
-  const response = await resolve(event);
 
   if (!sessionId) {
-    return response;
+    return await resolve(event);
   }
 
   const matchingUsers = await pool.transaction(async (connection) => {
@@ -42,12 +41,10 @@ const authenticationHandle: Handle = async ({ event, resolve }) => {
   });
 
   if (matchingUsers.rowCount >= 1) {
-    process.stdout.write("event.locals.user: ");
     event.locals.user = structuredClone(matchingUsers.rows[0]);
-    console.log(event.locals.user);
   }
 
-  return response;
+  return await resolve(event);
 };
 
-export const handle: Handle = sequence(tRPCHandle, httpLoggerHandle, authenticationHandle);
+export const handle: Handle = sequence(authenticationHandle, tRPCHandle, httpLoggerHandle);

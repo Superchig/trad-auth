@@ -10,8 +10,6 @@
 
     location.reload();
   };
-
-  console.log($page.data);
 </script>
 
 <h1>Traditional Auth</h1>
