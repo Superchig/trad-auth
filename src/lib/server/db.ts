@@ -7,6 +7,7 @@ import {
 } from 'slonik';
 
 import { DATABASE_URL } from '$env/static/private';
+import { z } from 'zod';
 
 // NOTE(Chris): This is modified slightly to get it to type-check
 // https://github.com/gajus/slonik/tree/v33.0.7#result-parser-interceptor
@@ -57,3 +58,13 @@ async function closeDB() {
 
   console.log('Pool ending confirmed.');
 }
+
+export const schemaId = z.object({
+  id: z.number()
+});
+export const schemaVoid = z.object({
+  void: z.object({}).strict()
+});
+export const schemaUuid = z.object({
+  id: z.string().uuid()
+});

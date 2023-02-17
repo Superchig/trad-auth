@@ -44,6 +44,7 @@ CREATE TABLE public.user_account (
     id integer NOT NULL,
     username character varying(255),
     email character varying(255) NOT NULL,
+    role character varying(255) NOT NULL,
     password character varying(255),
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL

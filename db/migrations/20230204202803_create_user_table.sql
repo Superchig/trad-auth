@@ -3,6 +3,7 @@ CREATE TABLE user_account (
   id SERIAL PRIMARY KEY,
   username varchar(255),
   email varchar(255) NOT NULL,
+  role varchar(255) NOT NULL,
   password varchar(255),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
