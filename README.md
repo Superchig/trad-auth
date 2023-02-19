@@ -2,6 +2,10 @@
 
 This SvelteKit project exists as a toy implementation for authentication.
 
+## Dependencies
+
+- [Just](https://github.com/casey/just)
+
 ## Developing
 
 Install Javascript/Typescript dependencies:
@@ -70,3 +74,4 @@ See https://kit.svelte.dev/docs/adapter-node#environment-variables.
   - svelte-json-tree
 - [x] Logging
   - Using HTTP logger handle taken from Reddit
+- [x] Justfile
