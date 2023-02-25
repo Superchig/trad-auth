@@ -53,7 +53,7 @@ export const router = t.router({
 
 export type Router = typeof router;
 
-const NewUserRequest = z.object({
+export const NewUserRequest = z.object({
   username: z.string(),
   email: z.string(),
   password: z.string().min(6)
