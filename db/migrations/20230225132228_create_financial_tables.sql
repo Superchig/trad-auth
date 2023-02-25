@@ -11,8 +11,6 @@ BEFORE UPDATE ON account
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
--- FIXME(Chris): Add timestamps to other new tables
-
 -- https://dirtsimple.org/2010/11/simplest-way-to-do-tree-based-queries.html
 CREATE TABLE account_closure (
   ancestor_id INTEGER,
@@ -63,8 +61,6 @@ FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
 -- Triggers
-
--- FIXME(Chris): Port these triggers over
 
 CREATE OR REPLACE FUNCTION trigger_account_insert()
 RETURNS TRIGGER AS $$
