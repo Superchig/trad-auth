@@ -4,6 +4,8 @@ WORKDIR /app
 
 check:
     COPY . .
+    RUN cp .env.template .env
+    RUN npm install
     RUN npm run check
 
 build:
