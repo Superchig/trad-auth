@@ -29,7 +29,7 @@ export const router = t.router({
         ).rows[0];
 
         try {
-          if (await argon2.verify(result.password, input.password)) {
+          if (result !== undefined && await argon2.verify(result.password, input.password)) {
             return result.id; // Session ID
           } else {
             return null;
