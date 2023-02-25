@@ -9,16 +9,6 @@ import { newUser } from '$lib/server/user';
 export const t = initTRPC.context<Context>().create();
 
 export const router = t.router({
-  newUser: t.procedure
-    .input((val: unknown) => {
-      return NewUserRequest.parse(val);
-    })
-    .query(async (req): Promise<string> => {
-      const { input } = req;
-      const pool = await getPool();
-
-      return await newUser(pool, input, 'user');
-    }),
   logIn: t.procedure
     .input((val: unknown) => {
       return LogInRequest.parse(val);

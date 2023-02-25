@@ -17,11 +17,6 @@
 {#if $page.data.user}
   <button on:click={signOut}>Log Out</button>
 {:else}
-  <a href={validRoute('/user/new')}>Sign Up</a>
-
-  <!-- TODO(Chris): Remove this line break -->
-  <br />
-
   <a href={validRoute('/user/login')}>Sign In</a>
 {/if}
 

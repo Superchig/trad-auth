@@ -1,4 +1,4 @@
-export type ValidRoute = '/' | '/user/new' | '/user/login';
+export type ValidRoute = '/' | '/user/login';
 
 export const validRoute = (route: ValidRoute): string => {
   return route;
