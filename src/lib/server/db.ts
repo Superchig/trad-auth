@@ -6,7 +6,7 @@ import {
   type QueryResultRow
 } from 'slonik';
 
-import { DATABASE_URL } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { z } from 'zod';
 
 // NOTE(Chris): This is modified slightly to get it to type-check
@@ -33,7 +33,7 @@ const createResultParserInterceptor = (): Interceptor => {
 
 const makePool = async (): Promise<DatabasePool> => {
   try {
-    return await createPool(DATABASE_URL, {
+    return await createPool(env.DATABASE_URL, {
       interceptors: [createResultParserInterceptor()]
     });
   } catch (err) {

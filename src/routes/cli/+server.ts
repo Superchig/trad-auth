@@ -3,9 +3,9 @@ import { dev } from '$app/environment';
 import { NewUserRequest } from '$lib/trpc/router';
 import { newUser } from '$lib/server/user';
 import { getPool } from '$lib/server/db';
-import { BASIC_AUTH_LOGIN } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
-const wantedAuth = Buffer.from(BASIC_AUTH_LOGIN, 'utf-8').toString('base64');
+const wantedAuth = Buffer.from(env.BASIC_AUTH_LOGIN, 'utf-8').toString('base64');
 
 export const POST: RequestHandler = async (event) => {
   const auth = event.request.headers.get('Authorization');
