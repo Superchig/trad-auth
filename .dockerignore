@@ -1,0 +1,16 @@
+.DS_Store
+node_modules
+/build
+/.svelte-kit
+/package
+.env
+.env.*
+!.env.template
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+/.idea
+
+# The above section is from the .gitignore
+# The below section is custom to the .dockerignore
+
+/git
