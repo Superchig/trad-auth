@@ -26,3 +26,5 @@ EXECUTE PROCEDURE trigger_set_timestamp();
 DROP TRIGGER set_timestamp_user_account on user_account;
 
 DROP TABLE user_account;
+
+DROP FUNCTION trigger_set_timestamp;
