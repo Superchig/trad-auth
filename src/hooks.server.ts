@@ -1,4 +1,4 @@
-import { pool } from '$lib/server/db';
+import { getPool } from '$lib/server/db';
 import { UserInfo } from '$lib/server/user_info';
 import { createContext } from '$lib/trpc/context';
 import { router } from '$lib/trpc/router';
@@ -30,6 +30,8 @@ const authenticationHandle: Handle = async ({ event, resolve }) => {
   if (!sessionId) {
     return await resolve(event);
   }
+
+  const pool = await getPool();
 
   const matchingUsers = await pool.transaction(async (connection) => {
     return await connection.query(sql.type(

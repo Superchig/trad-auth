@@ -2,7 +2,7 @@ import type { RequestHandler } from './$types';
 import { dev } from '$app/environment';
 import { NewUserRequest } from '$lib/trpc/router';
 import { newUser } from '$lib/server/user';
-import { pool } from '$lib/server/db';
+import { getPool } from '$lib/server/db';
 import { BASIC_AUTH_LOGIN } from '$env/static/private';
 
 const wantedAuth = Buffer.from(BASIC_AUTH_LOGIN, 'utf-8').toString('base64');
@@ -20,6 +20,8 @@ export const POST: RequestHandler = async (event) => {
   }
 
   const args = NewUserRequest.parse(await event.request.json());
+
+  const pool = await getPool();
 
   await newUser(pool, args, 'admin');
 

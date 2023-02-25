@@ -2,7 +2,7 @@ import type { Context } from '$lib/trpc/context';
 import { initTRPC } from '@trpc/server';
 import { z } from 'zod';
 import { sql } from 'slonik';
-import { pool } from '$lib/server/db';
+import { getPool } from '$lib/server/db';
 import argon2 from 'argon2';
 import { newUser } from '$lib/server/user';
 
@@ -15,6 +15,7 @@ export const router = t.router({
     })
     .query(async (req): Promise<string> => {
       const { input } = req;
+      const pool = await getPool();
 
       return await newUser(pool, input, 'user');
     }),
@@ -23,6 +24,7 @@ export const router = t.router({
       return LogInRequest.parse(val);
     })
     .query(async ({ input }) => {
+      const pool = await getPool();
       return await pool.transaction(async (connection) => {
         const result = (
           await connection.query(sql.type(

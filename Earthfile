@@ -10,6 +10,9 @@ check:
 
 build:
     COPY . .
+    # FIXME(Chris): Figure out how to set special environmental variables from Earthly
+    RUN cp .env.template .env
+    RUN npm install
     RUN npm run build
     SAVE ARTIFACT build /dist/build
 

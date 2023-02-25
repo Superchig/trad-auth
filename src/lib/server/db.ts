@@ -45,7 +45,15 @@ const makePool = async (): Promise<DatabasePool> => {
   }
 };
 
-export const pool = await makePool();
+let pool: DatabasePool | null = null;
+
+export const getPool = async () => {
+  if (pool === null) {
+    pool = await makePool();
+  }
+
+  return pool;
+}
 
 process.on('exit', async () => {
   await closeDB();
@@ -53,6 +61,8 @@ process.on('exit', async () => {
 
 async function closeDB() {
   console.log('Ending pool...');
+
+  const pool = await getPool();
 
   await pool.end();
 

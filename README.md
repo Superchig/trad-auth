@@ -70,6 +70,7 @@ See https://kit.svelte.dev/docs/adapter-node#environment-variables.
   - Argon2 - password salting and hashing
 - [x] Slonik connection
   - Slonik
+- [x] Build process that does not require a running database
 - [x] JSON Error Display
   - svelte-json-tree
 - [x] Logging
