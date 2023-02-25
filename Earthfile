@@ -10,13 +10,16 @@ check:
 
 build:
     COPY . .
-    # FIXME(Chris): Figure out how to set special environmental variables from Earthly
-    RUN cp .env.template .env
     RUN npm install
+    # NOTE(Chris): Due to SvelteKit's environment variable API, we need these 2
+    # environmental variables to exist at build time.
+    # We will set them when actually running the build.
+    ARG DATABASE_URL
+    ARG BASIC_AUTH_LOGIN
     RUN npm run build
-    SAVE ARTIFACT build /dist/build
+    SAVE ARTIFACT . /dist
 
 docker:
     COPY +build/dist dist
-    ENTRYPOINT ["node", "./dist/build"]
+    CMD ["node", "./dist/build"]
     SAVE IMAGE trad-auth:latest
