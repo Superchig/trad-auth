@@ -67,7 +67,8 @@ See https://kit.svelte.dev/docs/adapter-node#environment-variables.
 ## Fundamental Features
 
 - [ ] "Traditional" Authentication
-  - Argon2 - password salting and hashing
+  - [x] Argon2 - password salting and hashing
+  - [ ] Redirect to home page when not logged in
 - [x] Slonik connection
   - Slonik
 - [x] Build process that does not require a running database
@@ -76,3 +77,4 @@ See https://kit.svelte.dev/docs/adapter-node#environment-variables.
 - [x] Logging
   - Using HTTP logger handle taken from Reddit
 - [x] Justfile
+- [x] Earthfile
