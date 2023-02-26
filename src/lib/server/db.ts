@@ -59,14 +59,11 @@ process.on('exit', async () => {
   await closeDB();
 });
 
-async function closeDB() {
-  console.log('Ending pool...');
-
-  const pool = await getPool();
-
-  await pool.end();
-
-  console.log('Pool ending confirmed.');
+export async function closeDB() {
+  if (pool !== null) {
+    await pool.end();
+    pool = null;
+  }
 }
 
 export const schemaId = z.object({
