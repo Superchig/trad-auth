@@ -7,6 +7,11 @@ if ! [ -x "$(command -v psql)" ]; then
   exit 1
 fi
 
+if ! ([ -z "$TEST_DATABASE_URL" ] | [-z "$DATABASE_URL" ]); then
+  >&2 echo 'Error: Env variables TEST_DATABASE_URL and DATABASE_URL are not defined'
+  exit 1
+fi
+
 DB_USER=${POSTGRES_USER:=postgres}
 DB_PASSWORD=${POSTGRES_PASSWORD:=password}
 DB_NAME=${POSTGRES_DB:=trad-auth}
@@ -32,6 +37,10 @@ done
 
 >&2 echo "Postgres is up and running on port ${DB_PORT}!"
 
-export DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@localhost:${DB_PORT}/${DB_NAME}
+>&2 echo 'Initializing development database...'
 
-# >&2 echo 'Postgres has been migrated, ready to go!'
+dbmate up
+
+>&2 echo 'Initializing test database...'
+
+dbmate -u "$TEST_DATABASE_URL" up
