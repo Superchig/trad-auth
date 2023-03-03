@@ -7,7 +7,7 @@ if ! [ -x "$(command -v psql)" ]; then
   exit 1
 fi
 
-if ! ([ -z "$TEST_DATABASE_URL" ] | [-z "$DATABASE_URL" ]); then
+if [ -z "$TEST_DATABASE_URL" ] || [-z "$DATABASE_URL" ]; then
   >&2 echo 'Error: Env variables TEST_DATABASE_URL and DATABASE_URL are not defined'
   exit 1
 fi

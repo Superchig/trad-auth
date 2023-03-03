@@ -31,9 +31,9 @@ const createResultParserInterceptor = (): Interceptor => {
   };
 };
 
-const makePool = async (): Promise<DatabasePool> => {
+const makePool = async (databaseUrl: string): Promise<DatabasePool> => {
   try {
-    return await createPool(env.DATABASE_URL, {
+    return await createPool(databaseUrl, {
       interceptors: [createResultParserInterceptor()]
     });
   } catch (err) {
@@ -49,11 +49,15 @@ let pool: DatabasePool | null = null;
 
 export const getPool = async () => {
   if (pool === null) {
-    pool = await makePool();
+    if (process.env.VITEST) {
+      pool = await makePool(env.TEST_DATABASE_URL);
+    } else {
+      pool = await makePool(env.DATABASE_URL);
+    }
   }
 
   return pool;
-}
+};
 
 process.on('exit', async () => {
   await closeDB();

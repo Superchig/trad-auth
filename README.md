@@ -78,3 +78,6 @@ See https://kit.svelte.dev/docs/adapter-node#environment-variables.
   - Using HTTP logger handle taken from Reddit
 - [x] Justfile
 - [x] Earthfile
+- [ ] Unit tests
+  - [ ] Database sets itself up properly: We can create records as necessary
+        for tests, and we drop all records after the tests are done
