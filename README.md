@@ -83,4 +83,4 @@ See https://kit.svelte.dev/docs/adapter-node#environment-variables.
   - [x] At least one test trivially interacts with the test database - See
     'accounts.ts' 'uses valid SQL'
   - [ ] At least one test meaningfully interacts with the test database
-- [ ] Tailwind
+- [x] Tailwind
