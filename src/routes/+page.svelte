@@ -2,6 +2,7 @@
   import { page } from '$app/stores';
   import { validRoute } from '$lib/routes';
   import Cookies from 'js-cookie';
+  import Button, { ButtonColor } from '../Button.svelte';
 
   const signOut = () => {
     console.log('Signing out...');
@@ -15,7 +16,7 @@
 <h1>Traditional Auth</h1>
 
 {#if $page.data.user}
-  <button on:click={signOut}>Log Out</button>
+  <Button color={ButtonColor.Blue} on:click={signOut}>Log Out</Button>
 {:else}
   <a href={validRoute('/user/login')}>Sign In</a>
 {/if}

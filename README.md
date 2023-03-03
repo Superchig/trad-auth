@@ -79,5 +79,8 @@ See https://kit.svelte.dev/docs/adapter-node#environment-variables.
 - [x] Justfile
 - [x] Earthfile
 - [ ] Unit tests
-  - [ ] Database sets itself up properly: We can create records as necessary
-        for tests, and we drop all records after the tests are done
+  - [x] At least one test deletes all records before starting
+  - [x] At least one test trivially interacts with the test database - See
+    'accounts.ts' 'uses valid SQL'
+  - [ ] At least one test meaningfully interacts with the test database
+- [ ] Tailwind
