@@ -27,10 +27,6 @@ const httpLoggerHandle: Handle = async ({ event, resolve }) => {
 };
 
 const authenticationHandle: Handle = async ({ event, resolve }) => {
-  console.log('====In authenticationHandle');
-  console.log('user:           ' + inspect(event.locals.user));
-  console.log('event.route.id: ' + event.route.id);
-  console.log('publicRoutes:   ' + inspect(publicRoutes));
   const sessionId = event.cookies.get('sessionId');
 
   if (!sessionId) {
@@ -55,7 +51,6 @@ const authenticationHandle: Handle = async ({ event, resolve }) => {
   return await resolve(event);
 };
 
-// This user is not logged in, so restrict available routes
 const publicRoutesValid: ValidRoute[] = ['/', '/user/login'];
 const publicRoutes: String[] = publicRoutesValid;
 
@@ -65,11 +60,6 @@ type MaybePromise<T> = T | Promise<T>;
 type Resolve = (event: RequestEvent, opts?: ResolveOptions) => MaybePromise<Response>;
 
 const routeAuthorizationHandle: Handle = async ({ event, resolve }) => {
-  console.log('====In routeAuthorizationHandle');
-  console.log('user:             ' + inspect(event.locals.user));
-  console.log('event.route.id:   ' + event.route.id);
-  console.log('publicRoutes:     ' + inspect(publicRoutes));
-
   if (
     event.locals.user !== undefined ||
     (event.route.id !== null && publicRoutes.includes(event.route.id))
