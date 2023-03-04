@@ -27,7 +27,6 @@ const protectedProcedure = t.procedure.use(isAuthed);
 
 export const router = t.router({
   logIn: publicProcedure
-    .use(isAuthed)
     .input((val: unknown) => {
       return LogInRequest.parse(val);
     })
