@@ -7,7 +7,7 @@
 
   import { getCurrentTab, NavbarTab } from '$lib/navbar_tab';
   import { accountsPath, transactionsPath } from '$lib/routes';
-  import { beforeUpdate, onMount } from 'svelte';
+  import { beforeUpdate } from 'svelte';
   import { Modals } from 'svelte-modals';
   import type { LayoutData } from './$types';
 
