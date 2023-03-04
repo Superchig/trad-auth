@@ -68,8 +68,9 @@ See https://kit.svelte.dev/docs/adapter-node#environment-variables.
 
 - [ ] "Traditional" Authentication
   - [x] Argon2 - password salting and hashing
-  - [x] Redirect to home page when not logged in
-  - [ ] tRPC can't be used without authentication
+  - [ ] Routes are protected
+    - [x] SvelteKit routes redirect if not authenticated
+    - [ ] tRPC routes are protected if not authenticated
 - [x] Slonik connection
   - Slonik
 - [x] Build process that does not require a running database

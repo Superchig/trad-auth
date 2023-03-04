@@ -52,7 +52,7 @@ const authenticationHandle: Handle = async ({ event, resolve }) => {
 };
 
 const routeAuthorizationHandle: Handle = async ({ event, resolve }) => {
-  const maybeRedirect = possibleUserRedirect(event.locals.user, event.route.id);
+  const maybeRedirect = possibleUserRedirect(event);
 
   return maybeRedirect !== null ? maybeRedirect : await resolve(event);
 };

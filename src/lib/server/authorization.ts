@@ -1,18 +1,15 @@
 import type { ValidRoute } from '$lib/routes';
-import type { UserInfo } from '$lib/server/user_info';
+import type { RequestEvent } from '@sveltejs/kit';
 
 export const publicRoutesValid: ValidRoute[] = ['/', '/user/login'];
 export const publicRoutes: String[] = publicRoutesValid;
 
 export const basicAuthRoute: ValidRoute = '/cli';
 
-export const possibleUserRedirect = (
-  user: UserInfo | undefined,
-  route: string | null
-): Response | null => {
-  const isLoggedIn = user !== undefined;
-  const isPublicRoute = route !== null && publicRoutes.includes(route);
-  const isAuthorizedByBasicAuth = route !== null && route == basicAuthRoute;
+export const possibleUserRedirect = (event: RequestEvent): Response | null => {
+  const isLoggedIn = event.locals.user !== undefined;
+  const isPublicRoute = event.route.id !== null && publicRoutes.includes(event.route.id);
+  const isAuthorizedByBasicAuth = event.route.id !== null && event.route.id == basicAuthRoute;
   if (isLoggedIn || isPublicRoute || isAuthorizedByBasicAuth) {
     return null;
   } else {

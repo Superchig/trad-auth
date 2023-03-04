@@ -1,5 +1,5 @@
 import type { Context } from '$lib/trpc/context';
-import { initTRPC } from '@trpc/server';
+import { initTRPC, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { sql } from 'slonik';
 import { getPool } from '$lib/server/db';
@@ -7,8 +7,27 @@ import argon2 from 'argon2';
 
 export const t = initTRPC.context<Context>().create();
 
+const isAuthed = t.middleware(({ next, ctx }) => {
+  const user = ctx.event.locals.user;
+
+  if (user === undefined) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED'
+    });
+  }
+
+  return next({
+    ctx
+  });
+});
+
+const publicProcedure = t.procedure;
+// FIXME(Chris): Use this to create a protected procedure
+const protectedProcedure = t.procedure.use(isAuthed);
+
 export const router = t.router({
-  logIn: t.procedure
+  logIn: publicProcedure
+    .use(isAuthed)
     .input((val: unknown) => {
       return LogInRequest.parse(val);
     })
@@ -28,7 +47,7 @@ export const router = t.router({
         ).rows[0];
 
         try {
-          if (result !== undefined && await argon2.verify(result.password, input.password)) {
+          if (result !== undefined && (await argon2.verify(result.password, input.password))) {
             return result.id; // Session ID
           } else {
             return null;
