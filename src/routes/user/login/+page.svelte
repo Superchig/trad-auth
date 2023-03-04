@@ -43,29 +43,32 @@
   };
 </script>
 
-<!-- FIXME(Chris): Refactor this into a common h1 applied-class -->
-<h1 class="text-3xl mb-3">Log In</h1>
+<!-- FIXME(Chris): Refactor this out into a general center element, using `max-w-xl` -->
+<div class="m-4 mx-auto max-w-xl">
+  <!-- FIXME(Chris): Refactor this into a common h1 applied-class -->
+  <h1 class="text-3xl mb-3">Log In</h1>
 
-<!-- TODO(Chris): Refactor out a common Form component -->
-<form method="POST" on:submit|preventDefault={onSubmit} autocomplete="off" bind:this={elemForm}>
-  <label for="email">Email:</label>
-  <input
-    id="email"
-    type="email"
-    class="p-1 shadow-md rounded bg-blue-300 focus:bg-blue-200"
-    bind:value={logInRequest.email}
-  />
+  <!-- TODO(Chris): Refactor out a common Form component -->
+  <form method="POST" on:submit|preventDefault={onSubmit} autocomplete="off" bind:this={elemForm}>
+    <label for="email">Email:</label>
+    <input
+      id="email"
+      type="email"
+      class="p-1 shadow-md rounded bg-blue-300 focus:bg-blue-200"
+      bind:value={logInRequest.email}
+    />
 
-  <label for="password">Password:</label>
-  <input
-    id="password"
-    type="password"
-    class="p-1 shadow-md rounded bg-blue-300 focus:bg-blue-200"
-    bind:value={logInRequest.password}
-  />
+    <label for="password">Password:</label>
+    <input
+      id="password"
+      type="password"
+      class="p-1 shadow-md rounded bg-blue-300 focus:bg-blue-200"
+      bind:value={logInRequest.password}
+    />
 
-  <Button color={ButtonColor.Blue} class="py-1" bind:thisValue={elemSubmitButton}>Log In</Button>
-</form>
+    <Button color={ButtonColor.Blue} class="py-1" bind:thisValue={elemSubmitButton}>Log In</Button>
+  </form>
+</div>
 
 <style>
   form {
