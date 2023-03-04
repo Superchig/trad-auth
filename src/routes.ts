@@ -1,11 +1,3 @@
-export type ValidRoute = '/' | '/user/login';
-
-export const validRoute = (route: ValidRoute): string => {
-  return route;
-}
-
-// FIXME(Chris): Convert the following routes to use the ValidRoute type
-
 export function deleteWithAllChildrenPath() {
   return '?/delete_with_all_children';
 }

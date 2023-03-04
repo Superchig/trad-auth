@@ -48,6 +48,7 @@
 		"ky": "^0.33.2",
 		"slonik": "^33.0.7",
 		"svelte-fa": "^3.0.3",
+		"svelte-focus-on": "^0.1.4",
 		"svelte-json-tree": "^1.0.0",
 		"svelte-modals": "^1.2.1",
 		"trpc-sveltekit": "^3.2.9",
