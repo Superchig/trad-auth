@@ -7,10 +7,10 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user: UserInfo;
+			user: UserInfo | undefined;
 		}
 		interface PageData {
-			user: UserInfo;
+			user: UserInfo | undefined;
 		}
 		// interface Platform {}
 	}

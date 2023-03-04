@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { sql } from 'slonik';
 import { getPool } from '$lib/server/db';
 import argon2 from 'argon2';
-import { newUser } from '$lib/server/user';
 
 export const t = initTRPC.context<Context>().create();
 

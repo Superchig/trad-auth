@@ -1,11 +1,13 @@
+import type { ValidRoute } from '$lib/routes';
 import { getPool } from '$lib/server/db';
 import { UserInfo } from '$lib/server/user_info';
 import { createContext } from '$lib/trpc/context';
 import { router } from '$lib/trpc/router';
-import type { Handle } from '@sveltejs/kit';
+import type { Handle, RequestEvent, ResolveOptions } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { sql } from 'slonik';
 import { createTRPCHandle } from 'trpc-sveltekit';
+import { inspect } from 'util';
 
 const tRPCHandle = createTRPCHandle({ router, createContext });
 
@@ -25,6 +27,10 @@ const httpLoggerHandle: Handle = async ({ event, resolve }) => {
 };
 
 const authenticationHandle: Handle = async ({ event, resolve }) => {
+  console.log('====In authenticationHandle');
+  console.log('user:           ' + inspect(event.locals.user));
+  console.log('event.route.id: ' + event.route.id);
+  console.log('publicRoutes:   ' + inspect(publicRoutes));
   const sessionId = event.cookies.get('sessionId');
 
   if (!sessionId) {
@@ -49,4 +55,44 @@ const authenticationHandle: Handle = async ({ event, resolve }) => {
   return await resolve(event);
 };
 
-export const handle: Handle = sequence(authenticationHandle, tRPCHandle, httpLoggerHandle);
+// This user is not logged in, so restrict available routes
+const publicRoutesValid: ValidRoute[] = ['/', '/user/login'];
+const publicRoutes: String[] = publicRoutesValid;
+
+// NOTE(Chris): This type is from https://kit.svelte.dev/docs/types#private-types-maybepromise
+type MaybePromise<T> = T | Promise<T>;
+// NOTE(Chris): This type is adapted from https://kit.svelte.dev/docs/types#public-types-handle
+type Resolve = (event: RequestEvent, opts?: ResolveOptions) => MaybePromise<Response>;
+
+const routeAuthorizationHandle: Handle = async ({ event, resolve }) => {
+  console.log('====In routeAuthorizationHandle');
+  console.log('user:             ' + inspect(event.locals.user));
+  console.log('event.route.id:   ' + event.route.id);
+  console.log('publicRoutes:     ' + inspect(publicRoutes));
+
+  if (
+    event.locals.user !== undefined ||
+    (event.route.id !== null && publicRoutes.includes(event.route.id))
+  ) {
+    return await resolve(event);
+  } else {
+    const homeRoute: ValidRoute = '/';
+    console.log('Not logged in - redirecting');
+    const errorMessage = {
+      msg: 'Not logged in - redirecting'
+    };
+    return new Response(JSON.stringify(errorMessage), {
+      status: 302,
+      headers: { location: homeRoute }
+    });
+  }
+};
+
+// FIXME(Chris): Test (automatically) if a non-logged in person can access the tPRC calls
+
+export const handle: Handle = sequence(
+  authenticationHandle,
+  tRPCHandle,
+  routeAuthorizationHandle,
+  httpLoggerHandle
+);
