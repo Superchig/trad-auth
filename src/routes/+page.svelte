@@ -13,12 +13,16 @@
   };
 </script>
 
-<h1>Traditional Auth</h1>
+<!-- FIXME(Chris): Refactor this into a common h1 applied-class -->
+<h1 class="text-3xl mb-3">Traditional Auth</h1>
 
 {#if $page.data.user}
-  <Button color={ButtonColor.Blue} on:click={signOut}>Log Out</Button>
+  <Button color={ButtonColor.Blue} class="p-3 px-6 pt-2" on:click={signOut}>Log Out</Button>
 {:else}
-  <a href={validRoute('/user/login')}>Sign In</a>
+  <a
+    class="p-3 bg-blue-500 text-white hover:bg-blue-400 rounded-lg shadow-md"
+    href={validRoute('/user/login')}>Sign In</a
+  >
 {/if}
 
 <style>
