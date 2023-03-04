@@ -2,7 +2,7 @@
   import { page } from '$app/stores';
   import { validRoute } from '$lib/routes';
   import Cookies from 'js-cookie';
-  import Button, { ButtonColor } from '../Button.svelte';
+  import Button, { ButtonColor } from '$lib/Button.svelte';
 
   const signOut = () => {
     console.log('Signing out...');
