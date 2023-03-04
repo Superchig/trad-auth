@@ -7,7 +7,7 @@ import type { Handle, RequestEvent, ResolveOptions } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { sql } from 'slonik';
 import { createTRPCHandle } from 'trpc-sveltekit';
-import { inspect } from 'util';
+import { possibleUserRedirect } from '$lib/server/authorization';
 
 const tRPCHandle = createTRPCHandle({ router, createContext });
 
@@ -51,31 +51,10 @@ const authenticationHandle: Handle = async ({ event, resolve }) => {
   return await resolve(event);
 };
 
-const publicRoutesValid: ValidRoute[] = ['/', '/user/login'];
-const publicRoutes: String[] = publicRoutesValid;
-
-// NOTE(Chris): This type is from https://kit.svelte.dev/docs/types#private-types-maybepromise
-type MaybePromise<T> = T | Promise<T>;
-// NOTE(Chris): This type is adapted from https://kit.svelte.dev/docs/types#public-types-handle
-type Resolve = (event: RequestEvent, opts?: ResolveOptions) => MaybePromise<Response>;
-
 const routeAuthorizationHandle: Handle = async ({ event, resolve }) => {
-  if (
-    event.locals.user !== undefined ||
-    (event.route.id !== null && publicRoutes.includes(event.route.id))
-  ) {
-    return await resolve(event);
-  } else {
-    const homeRoute: ValidRoute = '/';
-    console.log('Not logged in - redirecting');
-    const errorMessage = {
-      msg: 'Not logged in - redirecting'
-    };
-    return new Response(JSON.stringify(errorMessage), {
-      status: 302,
-      headers: { location: homeRoute }
-    });
-  }
+  const maybeRedirect = possibleUserRedirect(event.locals.user, event.route.id);
+
+  return maybeRedirect !== null ? maybeRedirect : await resolve(event);
 };
 
 // FIXME(Chris): Test (automatically) if a non-logged in person can access the tPRC calls

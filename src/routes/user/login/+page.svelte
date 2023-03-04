@@ -64,7 +64,7 @@
     bind:value={logInRequest.password}
   />
 
-  <Button color={ButtonColor.Blue} class="py-1">Log In</Button>
+  <Button color={ButtonColor.Blue} class="py-1" bind:thisValue={elemSubmitButton}>Log In</Button>
 </form>
 
 <style>

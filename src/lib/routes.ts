@@ -1,4 +1,4 @@
-export type ValidRoute = '/' | '/user/login';
+export type ValidRoute = '/' | '/user/login' | '/cli';
 
 export const validRoute = (route: ValidRoute): string => {
   return route;

@@ -13,8 +13,9 @@
 <script lang="ts">
   import '$lib/app.css';
 
-  export let type: "button" | "submit" | "reset" | undefined = undefined;
+  export let type: 'button' | 'submit' | 'reset' | undefined = undefined;
   export let color: ButtonColor | undefined = undefined;
+  export let thisValue: HTMLButtonElement | undefined = undefined;
 
   let className = '';
 
@@ -43,7 +44,12 @@
   }
 </script>
 
-<button on:click {type} class={`rounded-lg shadow-md ${colorClasses} ${className}`}>
+<button
+  on:click
+  {type}
+  class={`rounded-lg shadow-md ${colorClasses} ${className}`}
+  bind:this={thisValue}
+>
   <slot />
 </button>
 
