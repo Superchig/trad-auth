@@ -62,7 +62,7 @@
     <input
       id="password"
       type="password"
-      class="p-1 shadow-md rounded bg-blue-300 focus:bg-blue-200"
+      class="p-1 shadow-md rounded bg-blue-300 focus:bg-blue-200 mb-3"
       bind:value={logInRequest.password}
     />
 
