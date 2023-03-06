@@ -7,7 +7,7 @@ import argon2 from 'argon2';
 export const userRouter = router({
   logIn: publicProcedure
     .input((val: unknown) => {
-      return LogInRequest.parse(val);
+      return LogInUserRequest.parse(val);
     })
     .query(async ({ input }) => {
       const pool = await getPool();
@@ -48,10 +48,10 @@ export const NewUserRequest = z.object({
 // FIXME(Chris): Rename this to reflect file location
 export type NewUserRequest = z.infer<typeof NewUserRequest>;
 
-const LogInRequest = z.object({
+const LogInUserRequest = z.object({
   email: z.string(),
   password: z.string().min(6)
 });
 
 // FIXME(Chris): Rename this to reflect file location
-export type LogInRequest = z.infer<typeof LogInRequest>;
+export type LogInUserRequest = z.infer<typeof LogInUserRequest>;

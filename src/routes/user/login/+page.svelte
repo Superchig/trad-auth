@@ -3,10 +3,10 @@
   import Cookies from 'js-cookie';
   import { lastError } from '$lib/stores';
   import { trpc } from '$lib/trpc/client';
-  import type { LogInRequest } from '$lib/trpc/routers/user';
+  import type { LogInUserRequest } from '$lib/trpc/routers/user';
   import Button, { ButtonColor } from '$lib/Button.svelte';
 
-  let logInRequest: LogInRequest = {
+  let logInRequest: LogInUserRequest = {
     email: '',
     password: ''
   };
