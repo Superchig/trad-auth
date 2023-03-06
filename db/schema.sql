@@ -30,10 +30,12 @@ $$;
 CREATE FUNCTION public.trigger_account_insert() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
-    BEGIN
-        INSERT INTO account_closure (ancestor_id, descendant_id, depth)
-        VALUES (NEW.id, NEW.id, 0);
-    END;
+BEGIN
+    INSERT INTO account_closure (ancestor_id, descendant_id, depth)
+    VALUES (NEW.id, NEW.id, 0);
+
+    RETURN NEW;
+END;
 $$;
 
 
@@ -78,6 +80,26 @@ CREATE TABLE public.account_closure (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL
 );
+
+
+--
+-- Name: account_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.account_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: account_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.account_id_seq OWNED BY public.account.id;
 
 
 --
@@ -179,6 +201,13 @@ CREATE TABLE public.user_session (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL
 );
+
+
+--
+-- Name: account id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.account ALTER COLUMN id SET DEFAULT nextval('public.account_id_seq'::regclass);
 
 
 --

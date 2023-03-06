@@ -1,6 +1,6 @@
 -- migrate:up
 CREATE TABLE account (
-  id INTEGER PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   name TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -64,10 +64,12 @@ EXECUTE PROCEDURE trigger_set_timestamp();
 
 CREATE OR REPLACE FUNCTION trigger_account_insert()
 RETURNS TRIGGER AS $$
-    BEGIN
-        INSERT INTO account_closure (ancestor_id, descendant_id, depth)
-        VALUES (NEW.id, NEW.id, 0);
-    END;
+BEGIN
+    INSERT INTO account_closure (ancestor_id, descendant_id, depth)
+    VALUES (NEW.id, NEW.id, 0);
+
+    RETURN NEW;
+END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER account_insert_zero_depth
