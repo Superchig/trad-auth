@@ -2,14 +2,14 @@ import type { ValidRoute } from '$lib/routes';
 import { getPool } from '$lib/server/db';
 import { UserInfo } from '$lib/server/user_info';
 import { createContext } from '$lib/trpc/context';
-import { router } from '$lib/trpc/router';
+import { appRouter } from '$lib/trpc/app';
 import type { Handle, RequestEvent, ResolveOptions } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { sql } from 'slonik';
 import { createTRPCHandle } from 'trpc-sveltekit';
 import { possibleUserRedirect } from '$lib/server/authorization';
 
-const tRPCHandle = createTRPCHandle({ router, createContext });
+const tRPCHandle = createTRPCHandle({ router: appRouter, createContext });
 
 // NOTE(Chris): From https://old.reddit.com/r/sveltejs/comments/xtbkpb/how_are_you_logging_http_requests_in_sveltekit/
 const httpLoggerHandle: Handle = async ({ event, resolve }) => {

@@ -3,7 +3,7 @@
   import Cookies from 'js-cookie';
   import { lastError } from '$lib/stores';
   import { trpc } from '$lib/trpc/client';
-  import type { LogInRequest } from '$lib/trpc/router';
+  import type { LogInRequest } from '$lib/trpc/app';
   import Button, { ButtonColor } from '$lib/Button.svelte';
 
   let logInRequest: LogInRequest = {

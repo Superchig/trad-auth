@@ -11,6 +11,8 @@
   import Button, { ButtonColor } from '$lib/Button.svelte';
   import DeleteAccountModal from '$lib/DeleteAccountModal.svelte';
   import EditAccountModal from './EditAccountModal.svelte';
+  import { trpc } from '$lib/trpc/client';
+  import { page } from '$app/stores';
 
   export let data: PageData;
 
@@ -22,7 +24,9 @@
 
   const onCreateClick = async (event: Event) => {
     // FIXME(Chris): Implement and refactor this endpoint
-    await ky.post('/accounts/new', { json: newAccount });
+    // await ky.post('/accounts/new', { json: newAccount });
+
+    await trpc($page).account.foo.query();
 
     location.reload();
   };
@@ -40,7 +44,7 @@
   let error: any | null = null;
 </script>
 
-<div class="m-4 mx-auto w-max">
+<div class="m-4 mx-auto max-w-xl">
   <div class="bg-red-600 text-white p-3 m-1 rounded-md empty:hidden">
     {#if error != null}
       <h1 class="text-2xl mb-3">Error</h1>

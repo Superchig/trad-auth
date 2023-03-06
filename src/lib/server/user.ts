@@ -1,7 +1,7 @@
 import argon2 from 'argon2';
 import { sql, type DatabasePool } from 'slonik';
 import { schemaId, schemaUuid } from '$lib/server/db';
-import type { NewUserRequest } from '$lib/trpc/router';
+import type { NewUserRequest } from '$lib/trpc/app';
 import type { Role } from '$lib/role';
 
 // NOTE(Chris): This is supposed to be like a model in an MVC app
