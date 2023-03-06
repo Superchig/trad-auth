@@ -52,7 +52,7 @@ export async function findAllAccountsIdNameBalance(
         balance: z.number()
       })
     )`SELECT a.id                                                 AS id,
-         (SELECT GROUP_CONCAT(ordered_ancestor.name, ':')
+         (SELECT STRING_AGG(ordered_ancestor.name, ':')
           FROM (SELECT account.name AS name
                 FROM account_closure
                          INNER JOIN account ON account.id = account_closure.ancestor_id
