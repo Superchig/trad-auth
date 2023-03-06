@@ -24,8 +24,6 @@
 
   const onCreateClick = async (event: Event) => {
     // FIXME(Chris): Implement and refactor this endpoint
-    // await ky.post('/accounts/new', { json: newAccount });
-
     await trpc($page).account.foo.query();
 
     location.reload();

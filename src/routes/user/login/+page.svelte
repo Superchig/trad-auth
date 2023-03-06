@@ -3,7 +3,7 @@
   import Cookies from 'js-cookie';
   import { lastError } from '$lib/stores';
   import { trpc } from '$lib/trpc/client';
-  import type { LogInRequest } from '$lib/trpc/app';
+  import type { LogInRequest } from '$lib/trpc/routers/user';
   import Button, { ButtonColor } from '$lib/Button.svelte';
 
   let logInRequest: LogInRequest = {
@@ -18,7 +18,7 @@
     try {
       elemSubmitButton.disabled = true;
 
-      const sessionId = await trpc($page).logIn.query(logInRequest);
+      const sessionId = await trpc($page).user.logIn.query(logInRequest);
 
       if (sessionId === null) {
         throw new Error('Invalid email or password');

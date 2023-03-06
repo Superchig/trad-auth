@@ -1,6 +1,5 @@
 import type { RequestHandler } from './$types';
-import { dev } from '$app/environment';
-import { NewUserRequest } from '$lib/trpc/app';
+import { NewUserRequest } from '$lib/trpc/routers/user';
 import { newUser } from '$lib/server/user';
 import { getPool } from '$lib/server/db';
 import { env } from '$env/dynamic/private';
