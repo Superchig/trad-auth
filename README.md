@@ -80,6 +80,18 @@ See https://kit.svelte.dev/docs/adapter-node#environment-variables.
   - Using HTTP logger handle taken from Reddit
 - [x] Justfile
 - [x] Earthfile
+- [x] tRPC Conventions
+  - File layout:
+    - `src/lib/trpc/routers` - Stores all routers.
+      - Each file in this directory defines one router.
+      - The router's name consists of the name of the file (without the
+        extension) with the word `Router` appended to the end.
+      - E.g. `user.ts` exports a `userRouter` variable.
+    - `src/lib/trpc/app.ts` - Merges routers into a single router called
+      `appRouter`.
+      - Each router is named after their corresponding file.
+      - E.g. A router available at `appRouter.user` would be defined as
+        `userRouter` from `src/lib/trpc/routers/user.ts`.
 - [ ] Unit tests
   - [x] At least one test deletes all records before starting
   - [x] At least one test trivially interacts with the test database - See
