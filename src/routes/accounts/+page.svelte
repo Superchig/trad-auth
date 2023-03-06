@@ -23,8 +23,8 @@
   };
 
   const onCreateClick = async (event: Event) => {
-    // FIXME(Chris): Implement and refactor this endpoint
-    await trpc($page).account.foo.query();
+    // FIXME(Chris): Implement this tRPC procedure
+    await trpc($page).account.new.query(newAccount);
 
     location.reload();
   };
