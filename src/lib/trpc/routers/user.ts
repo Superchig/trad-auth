@@ -45,7 +45,6 @@ export const NewUserRequest = z.object({
   password: z.string().min(6)
 });
 
-// FIXME(Chris): Rename this to reflect file location
 export type NewUserRequest = z.infer<typeof NewUserRequest>;
 
 const LogInUserRequest = z.object({
@@ -53,5 +52,4 @@ const LogInUserRequest = z.object({
   password: z.string().min(6)
 });
 
-// FIXME(Chris): Rename this to reflect file location
 export type LogInUserRequest = z.infer<typeof LogInUserRequest>;
