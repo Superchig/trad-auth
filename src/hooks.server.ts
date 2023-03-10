@@ -1,4 +1,3 @@
-import type { ValidRoute } from '$lib/routes';
 import { getPool } from '$lib/server/db';
 import { UserInfo } from '$lib/server/user_info';
 import { createContext } from '$lib/trpc/context';
@@ -9,7 +8,14 @@ import { sql } from 'slonik';
 import { createTRPCHandle } from 'trpc-sveltekit';
 import { possibleUserRedirect } from '$lib/server/authorization';
 
-const tRPCHandle = createTRPCHandle({ router: appRouter, createContext });
+const tRPCHandle = createTRPCHandle({
+  router: appRouter,
+  createContext,
+  // NOTE(Chris): From https://icflorescu.github.io/trpc-sveltekit/handling-errors
+  onError: ({ type, path, error }) => {
+    console.error(`Encountered error while trying to process ${type} @ ${path}:`, error);
+  }
+});
 
 // NOTE(Chris): From https://old.reddit.com/r/sveltejs/comments/xtbkpb/how_are_you_logging_http_requests_in_sveltekit/
 const httpLoggerHandle: Handle = async ({ event, resolve }) => {

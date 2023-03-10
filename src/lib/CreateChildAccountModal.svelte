@@ -6,6 +6,10 @@
   import TextInput from './TextInput.svelte';
   import Button, { ButtonColor } from './Button.svelte';
   import { submitWithEnter } from '$lib/util';
+  import { trpc } from './trpc/client';
+  import { page } from '$app/stores';
+  import { lastError } from './stores';
+  import { TRPCClientError } from '@trpc/client';
 
   // Provided by Modals
   export let isOpen: boolean;
@@ -15,11 +19,19 @@
   let form: HTMLFormElement;
 
   let newAccountName = '';
+
+  const onSubmit = async () => {
+    try {
+      await trpc($page).account.newChild.query({ foo: 'bar' });
+    } catch (err: any) {
+      lastError.set(err);
+    }
+  };
 </script>
 
 <BaseModal {isOpen}>
   <!-- FIXME(Chris): Set the `action` attribute to a valid and useful route -->
-  <form method="POST" action='#' bind:this={form}>
+  <form method="POST" action="#" bind:this={form} on:submit|preventDefault={onSubmit}>
     <h2 class="text-2xl mb-2">Create child account</h2>
 
     <hr class="mb-3" />

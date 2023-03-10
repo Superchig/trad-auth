@@ -19,5 +19,12 @@ export const accountRouter = router({
       });
 
       return result;
+    }),
+  newChild: protectedProcedure
+    .input((val: unknown) => {
+      return { foo: 'bar' };
+    })
+    .query(async ({ input: { foo } }) => {
+      throw new Error("This is an example error.");
     })
 });
