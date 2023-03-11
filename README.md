@@ -92,7 +92,6 @@ See https://kit.svelte.dev/docs/adapter-node#environment-variables.
       - Each router is named after their corresponding file.
       - E.g. A router available at `appRouter.user` would be defined as
         `userRouter` from `src/lib/trpc/routers/user.ts`.
-  - [ ] Error formatting and handling
 - [ ] Unit tests
   - [x] At least one test deletes all records before starting
   - [x] At least one test trivially interacts with the test database - See
