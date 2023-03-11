@@ -9,7 +9,6 @@
   import { trpc } from './trpc/client';
   import { page } from '$app/stores';
   import { lastError } from './stores';
-  import { TRPCClientError } from '@trpc/client';
 
   // Provided by Modals
   export let isOpen: boolean;
@@ -22,7 +21,15 @@
 
   const onSubmit = async () => {
     try {
-      await trpc($page).account.newChild.query({ foo: 'bar' });
+      const result = await trpc($page).account.newChild.query({
+        name: newAccountName,
+        parentAccountId: parentAccount.id!
+      });
+
+      console.log(result);
+
+      // FIXME(Chris): Find a better way of updating this data on the client
+      location.reload();
     } catch (err: any) {
       lastError.set(err);
     }
@@ -31,7 +38,7 @@
 
 <BaseModal {isOpen}>
   <!-- FIXME(Chris): Set the `action` attribute to a valid and useful route -->
-  <form method="POST" action="#" bind:this={form} on:submit|preventDefault={onSubmit}>
+  <form bind:this={form} on:submit|preventDefault={onSubmit}>
     <h2 class="text-2xl mb-2">Create child account</h2>
 
     <hr class="mb-3" />
