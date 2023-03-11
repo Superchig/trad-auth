@@ -52,6 +52,28 @@ export const accountRouter = router({
       const result = transactionResult.rows[0];
 
       return result;
+    }),
+  countChildren: protectedProcedure
+    .input((val: unknown) => {
+      return z
+        .object({
+          accountId: z.number()
+        })
+        .parse(val);
+    })
+    .query(async ({ input }) => {
+      const pool = await getPool();
+
+      const transactionResult = await pool.transaction(async (conn) => {
+        const schema = z.object({ count_children: z.number() });
+        const query = sql.type(schema)`SELECT COUNT(*) - 1 AS count_children
+                                       FROM account_closure
+                                       WHERE ancestor_id = ${input.accountId}`;
+        
+        return conn.one(query);
+      });
+
+      return transactionResult;
     })
 });
 

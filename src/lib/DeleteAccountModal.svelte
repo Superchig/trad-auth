@@ -7,6 +7,8 @@
   import Button, { ButtonColor } from './Button.svelte';
   import ky from 'ky';
   import { countChildrenPath, deleteWithAllChildrenPath } from '$lib/routes';
+  import { trpc } from './trpc/client';
+  import { page } from '$app/stores';
 
   export let isOpen: boolean;
 
@@ -15,9 +17,9 @@
   let childCount: number | string = 'LOADING';
 
   onMount(async () => {
-    const response = await ky.get(countChildrenPath(account.id!));
+    const response = await trpc($page).account.countChildren.query({ accountId: account.id! });
 
-    childCount = await response.json();
+    childCount = response.count_children;
   });
 </script>
 
@@ -32,13 +34,13 @@
 
   <hr class="my-3" />
 
-  <form method="POST" action={deleteWithAllChildrenPath()} class="actions flow-root">
+  <form class="actions flow-root">
     <input type="number" name="account_id" hidden value={account.id} />
 
     <Button on:click={closeModal} color={ButtonColor.SwapRed} class="p-2 float-left">Cancel</Button>
-    <Button type="submit" color={ButtonColor.Red} class="p-2 float-right"
-      >Delete All Children</Button
-    >
+    <Button type="submit" color={ButtonColor.Red} class="p-2 float-right">
+      Delete All Children
+    </Button>
   </form>
 </BaseModal>
 
