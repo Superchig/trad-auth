@@ -82,6 +82,8 @@ CREATE OR REPLACE FUNCTION trigger_account_delete()
 BEGIN
     DELETE FROM account_closure
     WHERE ancestor_id = OLD.id AND descendant_id = OLD.id;
+
+    RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
 
